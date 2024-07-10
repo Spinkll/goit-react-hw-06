@@ -3,8 +3,11 @@ import { useId } from "react";
 import css from "./ContactForm.module.css";
 import * as Yup from "yup";
 import { ErrorMessage } from "formik";
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 
 const ContactForm = ({ onAdd }) => {
+  const dispatch = useDispatch();
   const nameFieldId = useId();
   const numberFieldId = useId();
 
@@ -25,11 +28,13 @@ const ContactForm = ({ onAdd }) => {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    onAdd({
-      id: Date.now().toString(),
-      name: values.name,
-      number: values.number,
-    });
+    dispatch(
+      addContact({
+        id: Date.now().toString(),
+        name: values.name,
+        number: values.number,
+      })
+    );
     resetForm();
   };
 
